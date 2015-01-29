@@ -471,6 +471,9 @@ module Appium
 
       begin
         driver_quit
+        puts @client
+        puts @caps
+        puts server_url
         @driver = Selenium::WebDriver.for :remote, http_client: @client, desired_capabilities: @caps, url: server_url
         # Load touch methods.
         @driver.extend Selenium::WebDriver::DriverExtensions::HasTouchScreen
