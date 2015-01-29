@@ -470,6 +470,7 @@ module Appium
       @client.timeout = 999999
 
       begin
+        tries ||= 3
         driver_quit
         puts @client
         puts @caps
@@ -486,6 +487,12 @@ module Appium
         end
       rescue Errno::ECONNREFUSED
         raise 'ERROR: Unable to connect to Appium. Is the server running?'
+      rescue
+        if (tries -= 1) > 0
+          retry
+        else
+          raise
+        end
       end
 
       @driver.manage.timeouts.implicit_wait = @default_wait
